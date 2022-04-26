@@ -1,0 +1,27 @@
+Tables:
+Employees(Employee_ID int PK, Employee_Name char(50), Salary int)
+Theater(Theater_Name char(50) PK, Location char(50))
+Orders(Order_Number int PK, Employee_ID int)
+Items(Order_Number int PK, Food_Name char(50))
+Food(Food_Name char(50) PK, Price float(2), Type char(50))
+Auditoriums(Auditorium_ID int PK, Theater_Name char(50) PK, Capacity int)
+Tickets(Order_Number int PK, Movie_ID int, Showtime time, Ticket_price float(2))
+Movies(Movie_ID int PK, Name char(50), Release_Date date, Runtime time)
+
+
+Stored Procedures:
+CREATE PROCEDURE sp_GetEmployees() BEGIN select Employee_Name,Employee_ID from Employees; END
+
+CREATE PROCEDURE sp_GetEmployeesALL() BEGIN select Employee_ID, Employee_Name, Salary from Employees; END
+
+CREATE PROCEDURE sp_GetEmployeesDefaultName() BEGIN select Employee_Name from Employees; END
+
+CREATE PROCEDURE sp_GetEmployeesNameASC() BEGIN select Employee_Name from Employees ORDER BY Employee_Name ASC; END
+
+CREATE PROCEDURE sp_GetEmployeesNameDESC() BEGIN select Employee_Name from Employees ORDER BY Employee_Name DESC; END
+
+CREATE PROCEDURE sp_GetEmployeesDefaultID() BEGIN select Employee_ID from Employees; END
+
+CREATE PROCEDURE sp_GetEmployeesIDASC() BEGIN select Employee_ID from Employees ORDER BY Employee_ID ASC; END
+
+CREATE PROCEDURE sp_GetEmployeesIDDESC() BEGIN select Employee_ID from Employees ORDER BY Employee_ID DESC; END

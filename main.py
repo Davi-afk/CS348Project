@@ -1,7 +1,7 @@
 import tkinter #for gui design and implementation
 import mysql.connector
 from mysql.connector.constants import ClientFlag #for connecting to google cloud
-from employees import *
+import employees
 from movies import *
 from orders import *
 config = {
@@ -17,45 +17,48 @@ config = {
 config['database'] = 'CS_Cinema'  # add new database to config dict
 cnxn = mysql.connector.connect(**config) #starts connextion
 cursor = cnxn.cursor(buffered=True) #cursor to run commands
-"""Tables:
-Employees(Employee_ID int PK, Employee_Name char(50), Salary int)
-Theater(Theater_Name char(50) PK, Location char(50))
-Orders(Order_Number int PK, Employee_ID int)
-Items(Order_Number int PK, Food_Name char(50))
-Food(Food_Name char(50) PK, Price float(2), Type char(50))
-Auditoriums(Auditorium_ID int PK, Theater_Name char(50) PK, Capacity int)
-Tickets(Order_Number int PK, Movie_ID int, Showtime time, Ticket_price float(2))
-Movies(Movie_ID int PK, Name char(50), Release_Date date, Runtime time) """
+"""Look in info.txt for information about what tables and stored procedures there are"""
 
-#query = ("CREATE PROCEDURE sp_GetEmployees() BEGIN select Employee_Name,Employee_ID from Employees; END") #query to inserts a stored procedure
-#cursor.execute(query) #inserts stored procedure
-#cnxn.commit()  # and commit changes
+query = ("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED") #query to set transaction isolation level
+cursor.execute(query) #executes query
+cnxn.commit()  # commit changes
 cursor.execute("SHOW TABLES") #gets all tables
 out = cursor.fetchall() #stores query result in variable
 for row in out: #prints out each row to terminal
     print(row)
-frame = tkinter.Tk()  # creates a gui window
-frame.title("TextBox Input")  # sets window title
-frame.geometry('1000x500')  # sets window size
-def employee():
-    frame.destroy()
-    global frame2
-    frame2 = tkinter.Tk()
-    frame2.title("TextBox Input")  # sets window title
-    frame2.geometry('1000x500')
-    printButton = tkinter.Button(frame2, text="Insert", command=insertemp)
-    printButton.pack()
-    printButton2 = tkinter.Button(frame2, text="View", command=employee)
-    printButton2.pack()
-def insertemp():
-    frame2.destroy()
-    insertEmployees(cursor, cnxn)
-printButton = tkinter.Button(frame, text="Movies", command=employee)
-printButton.pack()
-printButton2 = tkinter.Button(frame, text="Employees", command=employee)
-printButton2.pack()
-printButton3 = tkinter.Button(frame, text="Orders", command=employee)
-printButton3.pack()
-frame.mainloop()
+
+def restart(): #makes a new main window then starts the loop
+    global frame
+    frame = tkinter.Tk()  # creates a gui window
+    frame.title("Welcome")  # sets window title
+    frame.geometry('1200x800')  # sets window size
+    frame['bg'] = 'gray'
+    loop()
+def movies(): #add the call to movies
+    print("movies")
+def orders(): #add the call to orders
+    print("orders")
+def chooseEmployee(): #gets rid of the widgets on the frame so it can be reused and then calls employees
+    for widget in frame.winfo_children():
+        widget.destroy()
+    employees.vars(cursor, cnxn, frame)
+def loop(): #sets up the labels and buttons for the main menu
+    lbl = tkinter.Label(frame, text="Welcome to Computer Science Cinemas", bg="gray") #label bg is background color
+    lbl.config(font=('Helvetica bold',40)) #sets font and size
+    lbl.pack() #puts label at top
+    lbl2 = tkinter.Label(frame, text="please select which category you would like to change or view", bg="gray")
+    lbl2.config(font=('Helvetica bold',20))
+    lbl2.pack()
+    printButton = tkinter.Button(frame, text="Movies", command=movies, width=20, height=10, bg="blue", fg="white") #sets width, height, background color and text color for the button
+    printButton.place(x = 200, y = 300) #sets the button where the x and y coordinates are
+    printButton.config(font=('Helvetica bold',15))
+    printButton2 = tkinter.Button(frame, text="Employees", command=chooseEmployee, width=20, height=10, bg="orange", fg="white")
+    printButton2.place(x = 500, y = 300)
+    printButton2.config(font=('Helvetica bold',15))
+    printButton3 = tkinter.Button(frame, text="Orders", command=orders, width=20, height=10, bg="blue", fg="white")
+    printButton3.place(x = 800, y = 300)
+    printButton3.config(font=('Helvetica bold',15))
+    frame.mainloop()#needed to make all the widgets display
+restart()#starts the first loop
 
 
