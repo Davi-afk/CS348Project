@@ -243,7 +243,7 @@ def insertOrders():
 
 def search():
     start = 50
-    add = 180
+    add = 150
     for widget in frame.winfo_children():
         temp = str(widget)
         if "label" in temp:
@@ -252,7 +252,7 @@ def search():
         if "label" in temp and num > tobeat:
             widget.destroy()
     if one.get() == "Default" and two.get() == "Default" and three.get() == "Default":
-        query = ("""SELECT o.Order_Number, e.Employee_Name, i.Food_Name, t.Showtime, m.Name  
+        query = ("""SELECT o.Order_Number, e.Employee_Name, i.Food_Name, t.Showtime, m.Name, t.Ticket_price  
                    FROM Orders o JOIN Employees e ON o.Employee_ID = e.Employee_ID 
                    JOIN Items i ON i.Order_Number = o.Order_Number
                    JOIN Tickets t ON t.Order_Number = o.Order_Number
@@ -294,7 +294,7 @@ def viewOrders():
     # drop1.place(x=50, y=170)
     lbl2 = tkinter.Label(frame, text="Employee:", bg="gray")
     lbl2.config(font=('Helvetica bold', 20))
-    lbl2.place(x=220, y=120)
+    lbl2.place(x=190, y=120)
     global two
     two = StringVar(frame)
     two.set("Default")  # default value
@@ -303,7 +303,7 @@ def viewOrders():
     # drop2.place(x=220, y=170)
     lbl4 = tkinter.Label(frame, text="Food:", bg="gray")
     lbl4.config(font=('Helvetica bold', 20))
-    lbl4.place(x=400, y=120)
+    lbl4.place(x=350, y=120)
     global three
     three = StringVar(frame)
     three.set("Default")  # default value
@@ -311,9 +311,9 @@ def viewOrders():
     # drop3.config(bg="orange", fg="white")
     # drop3.place(x=400, y=170)
 
-    lbl4 = tkinter.Label(frame, text="Showtime:", bg="gray")
-    lbl4.config(font=('Helvetica bold', 20))
-    lbl4.place(x=580, y=120)
+    lbl5 = tkinter.Label(frame, text="Showtime:", bg="gray")
+    lbl5.config(font=('Helvetica bold', 20))
+    lbl5.place(x=480, y=120)
     global four
     four = StringVar(frame)
     four.set("Default")  # default value
@@ -321,15 +321,19 @@ def viewOrders():
     # drop4.config(bg="orange", fg="white")
     # drop4.place(x=580, y=170)
 
-    lbl4 = tkinter.Label(frame, text="Movie:", bg="gray")
-    lbl4.config(font=('Helvetica bold', 20))
-    lbl4.place(x=770, y=120)
+    lbl6 = tkinter.Label(frame, text="Movie:", bg="gray")
+    lbl6.config(font=('Helvetica bold', 20))
+    lbl6.place(x=640, y=120)
     global five
     five = StringVar(frame)
     five.set("Default")  # default value
     # drop5 = OptionMenu(frame, five, "Default", "Movie ASC.", "Movie DESC.", "None")
     # drop5.config(bg="orange", fg="white")
     # drop5.place(x=770, y=170)
+
+    lbl7 = tkinter.Label(frame, text="Price:", bg="gray")
+    lbl7.config(font=('Helvetica bold', 20))
+    lbl7.place(x=780, y=120)
 
     printButton6 = tkinter.Button(frame, text="Back", command=order, width=15, height=7, bg="black", fg="white")
     printButton6.place(x=25, y=725)
