@@ -1,11 +1,12 @@
 import tkinter #for gui design and implementation
 import mysql.connector
 from mysql.connector.constants import ClientFlag #for connecting to google cloud
-def insertMovies(cursor, cnxn):
+
+def insertMovies(cursor, cnxn, frame):
     # Top level window
-        frame = tkinter.Tk()  # creates a gui window
-        frame.title("TextBox Input")  # sets window title
-        frame.geometry('1000x500')  # sets window size
+       # frame = tkinter.Tk()  # creates a gui window
+        #frame.title("TextBox Input")  # sets window title
+        #frame.geometry('1000x500')  # sets window size
 
         # Function for getting Input from textbox and table results to label widget
         def printInput():
@@ -49,4 +50,4 @@ def insertMovies(cursor, cnxn):
 
         # runs gui and closes connection to database
         frame.mainloop()
-        cnxn.close()
+        #cnxn.close()

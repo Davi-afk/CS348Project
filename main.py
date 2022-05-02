@@ -2,8 +2,8 @@ import tkinter #for gui design and implementation
 import mysql.connector
 from mysql.connector.constants import ClientFlag #for connecting to google cloud
 import employees
-from movies import *
-from orders import *
+from movies import insertMovies
+from orders import vars
 config = {
     'user': 'root',
     'password': '723307009',
@@ -35,9 +35,11 @@ def restart(): #makes a new main window then starts the loop
     frame['bg'] = 'gray'
     loop()
 def movies(): #add the call to movies
-    print("movies")
+    for widget in frame.winfo_children():
+        widget.destroy()
+    insertMovies(cursor, cnxn, frame)
 def orders(): #add the call to orders
-    print("orders")
+    vars(cursor, cnxn, frame)
 def chooseEmployee(): #gets rid of the widgets on the frame so it can be reused and then calls employees
     for widget in frame.winfo_children():
         widget.destroy()
