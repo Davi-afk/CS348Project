@@ -252,7 +252,7 @@ def search():
         if "label" in temp and num > tobeat:
             widget.destroy()
     if one.get() == "Default":
-        query = ("""SELECT o.Order_Number, e.Employee_Name, IFNULL(i.Food_Name, 0), IFNULL(t.Showtime, 0), IFNULL(m.Name, 0), t.Ticket_price  
+        query = ("""SELECT o.Order_Number, e.Employee_Name, i.Food_Name, t.Showtime, m.Name, t.Ticket_price  
                    FROM Orders o JOIN Employees e ON o.Employee_ID = e.Employee_ID 
                    JOIN Items i ON i.Order_Number = o.Order_Number
                    JOIN Tickets t ON t.Order_Number = o.Order_Number
