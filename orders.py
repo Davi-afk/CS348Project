@@ -251,10 +251,15 @@ def search():
             num = int(num)
         if "label" in temp and num > tobeat:
             widget.destroy()
-    if one.get() == "Default" and two.get() == "Default" and three.get() == "Default":
-        query = ("""SELECT o.Order_Number, e.Employee_Name, i.Food_Name, t.Showtime, m.Name, t.Ticket_price  
+    if one.get() == "Default":
+        query = ("""SELECT o.Order_Number, e.Employee_Name, IFNULL(i.Food_Name, 0), IFNULL(t.Showtime, 0), IFNULL(m.Name, 0), t.Ticket_price  
                    FROM Orders o JOIN Employees e ON o.Employee_ID = e.Employee_ID 
                    JOIN Items i ON i.Order_Number = o.Order_Number
+                   JOIN Tickets t ON t.Order_Number = o.Order_Number
+                   JOIN Movies m ON m.Movie_ID = t.Movie_ID""")
+    elif one.get() == "None":
+        query = ("""SELECT o.Order_Number, e.Employee_Name, NULL, t.Showtime, m.Name, t.Ticket_price
+                    FROM Orders o JOIN Employees e ON o.Employee_ID = e.Employee_ID 
                    JOIN Tickets t ON t.Order_Number = o.Order_Number
                    JOIN Movies m ON m.Movie_ID = t.Movie_ID""")
     cursor.execute(query)  # query to get rows of employee table
@@ -286,21 +291,25 @@ def viewOrders():
     lbl1 = tkinter.Label(frame, text="Order ID:", bg="gray")
     lbl1.config(font=('Helvetica bold', 20))
     lbl1.place(x=50, y=120)
+
     global one
     one = StringVar(frame)
     one.set("Default")
-    # drop1 = OptionMenu(frame, one, "Default", "ID ASC.", "ID DESC.", "None")
-    # drop1.config(bg="orange", fg="white")
-    # drop1.place(x=50, y=170)
+    drop1 = OptionMenu(frame, one, "Default", "None")
+    drop1.config(bg="orange", fg="white")
+    drop1.place(x=350, y=170)
+
     lbl2 = tkinter.Label(frame, text="Employee:", bg="gray")
     lbl2.config(font=('Helvetica bold', 20))
     lbl2.place(x=190, y=120)
-    global two
-    two = StringVar(frame)
-    two.set("Default")  # default value
-    # drop2 = OptionMenu(frame, two, "Default", "Name ASC.", "Name DESC.", "None")
+
+    # global two
+    # two = StringVar(frame)
+    # two.set("Default")  # default value
+    # drop2 = OptionMenu(frame, two, "Default", "None")
     # drop2.config(bg="blue", fg="white")
-    # drop2.place(x=220, y=170)
+    # drop2.place(x=640, y=170)
+
     lbl4 = tkinter.Label(frame, text="Food:", bg="gray")
     lbl4.config(font=('Helvetica bold', 20))
     lbl4.place(x=350, y=120)
